@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Random Joke Picker</title>
+	</head>
+
+	<body>
+		<input type="file" name="inputfile" id="inputfile" />
+		<br />
+		<br />
+		<p id="output"></p>
+		<hr />
+
+		<input
+			type="button"
+			name="NextJokeBtn"
+			value="Next Joke"
+			id="NextJokeBtn"
+		/>
+
+		<script type="text/javascript">
+			var jokesArray = [];
+
+			document
+				.getElementById("inputfile")
+				.addEventListener("change", function () {
+					var fr = new FileReader();
+					fr.onload = function () {
+						var jokesString = fr.result;
+						jokesArray = jokesString.split("\n");
+						var selectedJoke =
+							jokesArray[Math.floor(Math.random() * jokesArray.length)].trim();
+
+						while (selectedJoke.replace(/\s/g, "") == "") {
+							selectedJoke =
+								jokesArray[
+									Math.floor(Math.random() * jokesArray.length)
+								].trim();
+						}
+
+						document.getElementById("output").textContent = selectedJoke;
+					};
+
+					fr.readAsText(this.files[0]);
+				});
+
+			document
+				.getElementById("NextJokeBtn")
+				.addEventListener("click", function () {
+					var selectedJoke =
+						jokesArray[Math.floor(Math.random() * jokesArray.length)].trim();
+
+					while (selectedJoke.replace(/\s/g, "") == "") {
+						selectedJoke =
+							jokesArray[Math.floor(Math.random() * jokesArray.length)].trim();
+					}
+
+					document.getElementById("output").textContent = selectedJoke;
+				});
+		</script>
+	</body>
+</html>
